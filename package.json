@@ -1,0 +1,20 @@
+{
+  "name": "@tfocus/orchestrator",
+  "version": "1.0.0",
+  "description": "Production vertical AI orchestrator for photography studios",
+  "main": "src/domain/state.mjs",
+  "type": "module",
+  "scripts": {
+    "test": "node test/verify-lifecycle.test.mjs"
+  },
+  "keywords": [
+    "vertical-ai",
+    "multimodal-rag",
+    "pgvector",
+    "grounding-dino",
+    "claude-vision",
+    "finite-state-machine"
+  ],
+  "author": "TFocus AI Engineering Team <dev@tfocus.com.vn>",
+  "license": "MIT"
+}
