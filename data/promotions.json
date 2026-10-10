@@ -1,0 +1,15 @@
+{
+  "promotions": [
+    {
+      "code":"GOLDEN_HOUR",
+      "name":"Ưu đãi giờ vàng",
+      "discountType":"fixed",
+      "discountValue":200000,
+      "active":false,
+      "days":["MON","TUE","WED","THU","FRI","SAT"],
+      "startTime":"09:00",
+      "endTime":"16:00",
+      "notes":"Chỉ bật sau khi TFocus xác nhận điều kiện thật."
+    }
+  ]
+}

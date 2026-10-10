@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tfocus.com.vn/open-source/tfocus-ai-orchestrator/bom.schema.json",
+  "title": "TFocus Five-Layer Visual BOM",
+  "description": "Structured output contract for a human-reviewable photography reference decomposition.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "source", "layers", "review"],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "1.0.0" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["imageId", "ingestedAt"],
+      "properties": {
+        "imageId": { "type": "string", "minLength": 1 },
+        "ingestedAt": { "type": "string", "format": "date-time" },
+        "channel": { "type": "string", "enum": ["WEB", "MESSENGER", "TIKTOK", "INSTAGRAM", "INTERNAL"] }
+      }
+    },
+    "layers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outfits", "accessories", "decor", "flowers", "lighting"],
+      "properties": {
+        "outfits": { "$ref": "#/$defs/itemList" },
+        "accessories": { "$ref": "#/$defs/itemList" },
+        "decor": { "$ref": "#/$defs/itemList" },
+        "flowers": { "$ref": "#/$defs/itemList" },
+        "lighting": { "$ref": "#/$defs/itemList" }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "required"],
+      "properties": {
+        "mode": { "type": "string", "enum": ["AUTO", "ASSIST", "HUMAN"] },
+        "required": { "type": "boolean" },
+        "reason": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "itemList": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/item" }
+    },
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label", "confidence", "matchStatus"],
+      "properties": {
+        "label": { "type": "string", "minLength": 1 },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "matchStatus": { "type": "string", "enum": ["MATCH", "POSSIBLE_MATCH", "MISSING"] },
+        "inventoryId": { "type": ["string", "null"] },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

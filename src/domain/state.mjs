@@ -23,8 +23,30 @@ export const STATES = Object.freeze({
   HUMAN_HANDOFF: "HUMAN_HANDOFF"
 });
 
-export const MODES = Object.freeze({
-  AUTO: "AUTO",
-  ASSIST: "ASSIST",
-  HUMAN: "HUMAN"
-});
+export const MODES = Object.freeze({ AUTO: "AUTO", ASSIST: "ASSIST", HUMAN: "HUMAN" });
+
+export function isTerminal(state) {
+  return [STATES.COMPLETED, STATES.HUMAN_HANDOFF].includes(state);
+}
+
+export function transition(current, event) {
+  const transitions = {
+    [STATES.NEW_LEAD]: { message: STATES.DISCOVER_CONCEPT, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.DISCOVER_CONCEPT]: { category_identified: STATES.SEND_CONCEPT_OPTIONS, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.SEND_CONCEPT_OPTIONS]: { gallery_sent: STATES.WAIT_CONCEPT_SELECTION, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.WAIT_CONCEPT_SELECTION]: { concept_selected: STATES.ANALYZE_SELECTION, external_reference: STATES.ANALYZE_EXTERNAL_REFERENCE, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.ANALYZE_SELECTION]: { ready_to_quote: STATES.READY_TO_QUOTE, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.READY_TO_QUOTE]: { quote_sent: STATES.QUOTE_SENT, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.QUOTE_SENT]: { accepted: STATES.PRICE_ACCEPTED, objection: STATES.OBJECTION_HANDLING, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.OBJECTION_HANDLING]: { accepted: STATES.PRICE_ACCEPTED, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.PRICE_ACCEPTED]: { ask_date: STATES.ASK_DATE, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.ASK_DATE]: { date_selected: STATES.SELECT_SLOT, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.SELECT_SLOT]: { slot_held: STATES.WAIT_DEPOSIT, conflict: STATES.HUMAN_HANDOFF, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.WAIT_DEPOSIT]: { payment_started: STATES.PAYMENT_PENDING, evidence_received: STATES.PAYMENT_EVIDENCE_RECEIVED, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.PAYMENT_PENDING]: { evidence_received: STATES.PAYMENT_EVIDENCE_RECEIVED, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.PAYMENT_EVIDENCE_RECEIVED]: { payment_verified: STATES.PAYMENT_VERIFIED, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.PAYMENT_VERIFIED]: { booking_created: STATES.BOOKED, handoff: STATES.HUMAN_HANDOFF },
+    [STATES.BOOKED]: { reminder_scheduled: STATES.REMINDER_PENDING, completed: STATES.COMPLETED, handoff: STATES.HUMAN_HANDOFF }
+  };
+  return transitions[current]?.[event] ?? null;
+}

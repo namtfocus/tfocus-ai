@@ -1,0 +1,42 @@
+{
+  "benchmarkVersion": "0.1.0",
+  "status": "SAMPLE_ONLY",
+  "description": "Small, human-reviewed example set for contract and reporting shape. It is not a statistically significant accuracy benchmark.",
+  "cases": [
+    {
+      "caseId": "sample-001",
+      "inputType": "birthday-reference",
+      "expectedObjects": 5,
+      "detectedObjects": 5,
+      "inventoryMatches": 4,
+      "missingItems": 1,
+      "reviewMode": "ASSIST",
+      "latencyMs": 1350
+    },
+    {
+      "caseId": "sample-002",
+      "inputType": "minimal-portrait-reference",
+      "expectedObjects": 3,
+      "detectedObjects": 3,
+      "inventoryMatches": 3,
+      "missingItems": 0,
+      "reviewMode": "AUTO",
+      "latencyMs": 980
+    },
+    {
+      "caseId": "sample-003",
+      "inputType": "complex-couple-reference",
+      "expectedObjects": 7,
+      "detectedObjects": 6,
+      "inventoryMatches": 4,
+      "missingItems": 2,
+      "reviewMode": "HUMAN",
+      "latencyMs": 1780
+    }
+  ],
+  "methodology": [
+    "Cases are reviewed by a studio operator.",
+    "Latency is an internal sample profile, not an SLA.",
+    "Formal precision, recall, and confidence intervals are not yet published."
+  ]
+}

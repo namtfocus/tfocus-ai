@@ -1,0 +1,44 @@
+{
+  "categories": [
+    {"id":"birthday","name":"Birthday","albumUrl":"","active":true},
+    {"id":"feminine","name":"Nàng thơ","albumUrl":"","active":true},
+    {"id":"beauty","name":"Beauty","albumUrl":"","active":true},
+    {"id":"couple","name":"Couple","albumUrl":"","active":true},
+    {"id":"profile","name":"Profile","albumUrl":"","active":true},
+    {"id":"pregnancy","name":"Pregnancy","albumUrl":"","active":true},
+    {"id":"graduation","name":"Graduation","albumUrl":"","active":true}
+  ],
+  "concepts": [
+    {
+      "id":"concept-bd-001",
+      "code":"BD-001",
+      "name":"Silver Birthday",
+      "categoryId":"birthday",
+      "description":"Birthday tông bạc/trắng, phong cách nữ tính và hiện đại.",
+      "tags":["birthday","silver","white","feminine"],
+      "dominantColors":["silver","white"],
+      "basePrice":1500000,
+      "durationMinutes":90,
+      "driveUrl":"",
+      "images":[
+        {"id":"bd-001-1","path":"","caption":"Mẫu BD-001 — ảnh 1"},
+        {"id":"bd-001-2","path":"","caption":"Mẫu BD-001 — ảnh 2"}
+      ],
+      "active":true
+    },
+    {
+      "id":"concept-couple-001",
+      "code":"CP-001",
+      "name":"Modern Couple",
+      "categoryId":"couple",
+      "description":"Concept couple tối giản, ánh sáng mềm và màu trung tính.",
+      "tags":["couple","modern","neutral"],
+      "dominantColors":["beige","white"],
+      "basePrice":1800000,
+      "durationMinutes":90,
+      "driveUrl":"",
+      "images":[],
+      "active":true
+    }
+  ]
+}

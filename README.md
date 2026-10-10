@@ -1,54 +1,91 @@
-# TFocus AI Orchestrator & State Machine
+# TFocus AI Orchestrator & Multimodal Vision Core
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](https://opensource.org/licenses/MIT)
 [![Node.js](https://img.shields.io/badge/Node.js-v20%2B-green.svg)](https://nodejs.org)
-[![Anthropic Claude](https://img.shields.io/badge/LLM-Claude%203.5%20Sonnet%20Vision-blue.svg)](https://anthropic.com)
+[![Anthropic Claude](https://img.shields.io/badge/Vision%20Engine-Claude%20Multimodal-blue.svg)](https://anthropic.com)
 [![PostgreSQL pgvector](https://img.shields.io/badge/Vector%20DB-pgvector%20HNSW-indigo.svg)](https://github.com/pgvector/pgvector)
 
-Vertical AI orchestrator for photography studio operations:
-- **Zero-Shot Multimodal Vision RAG**: Decomposing reference customer photography into 5 structured Bill Of Materials (BOM) layers.
-- **Physical Inventory Reconciliation**: Matching against 241 props and 163 garments using Grounding DINO + DINOv2 768-dim embeddings.
-- **22-State Finite State Machine**: Enforcing strict financial safety guardrails (`AUTO`, `ASSIST`, `HUMAN`).
+Vertical AI operating layer and orchestration engine designed specifically for creative photography studios. Built and validated at **TFocus Studio (Hue, Vietnam)**.
 
-## Architecture
+---
 
-```
-Incoming Customer Image / Reference (Messenger, TikTok, Web)
-                  │
-                  ▼
-         ChatbotX Upstream Core
-                  │
-                  ▼
-         TFocus Orchestrator
-                  │
-    ┌─────────────┴─────────────┐
-    ▼                           ▼
-Claude 3.5 Sonnet Vision     Grounding DINO 1.5 + DINOv2
-(5-Layer BOM Decomposition)  (768-dim Feature Extraction)
-    │                           │
-    └─────────────┬─────────────┘
-                  ▼
-      PostgreSQL + pgvector (HNSW)
-(Reconciling 241 Props & 163 Garments)
-                  │
-      ┌───────────┴───────────┐
-      ▼                       ▼
-    OWNED                  MISSING
- (Warehouse: 0đ)     (Local Hue Sourcing / Shopee)
-                  │
-                  ▼
-        pricing.mjs (Deterministic)
-                  │
-                  ▼
-  22-State Lifecycle Guardrail (AUTO / ASSIST / HUMAN)
+## Architecture Overview
+
+```text
+Client Reference Photo (Unstructured)
+             │
+             ▼
+   Claude Multimodal Vision
+   (Extracts 5-Layer BOM: Wardrobe, Props, Accessories, Florals, Lighting)
+             │
+             ▼
+    Vector Similarity Match
+   (Matches against physical studio inventory via pgvector HNSW)
+             │
+             ▼
+  22-State Finite State Machine (`src/domain/state.mjs`)
+  + Deterministic Pricing Engine (`src/modules/pricing.mjs`)
+  [AUTO / ASSIST / HUMAN Governance — 0% Financial Hallucination]
+             │
+             ▼
+  Studio Operator Confirmation -> Calendar Slot Hold -> Deposit Verification
 ```
 
-## Quick Start
+---
 
+## Core Capabilities
+
+- **22 Discrete States:** Full customer journey lifecycle from lead discovery to final booking and shoot reminder (`src/domain/state.mjs`).
+- **3 Operational Safety Modes:** `AUTO` (standard catalogs), `ASSIST` (AI decomposes references for human review), `HUMAN` (receipts, conflicts, disputes).
+- **Deterministic Pricing Engine:** Complete mathematical isolation preventing LLMs from fabricating rates or inventory (`src/modules/pricing.mjs`).
+- **Concept Catalog & Inventory Taxonomy:** Standardized props, garments, and styling sets (`data/concepts/catalog.json`).
+- **30-Minute Slot Hold:** Conflict-free booking reservation protocol (`src/modules/booking.mjs`).
+- **Human Escalation Guardrails:** Realtime detection of emotional distress, payment errors, and edge cases (`src/modules/handoff.mjs`).
+
+---
+
+## Quickstart
+
+### Prerequisites
+- Node.js >= 20.0.0
+
+### Run Tests
 ```bash
-npm install
-npm run test
+npm test
 ```
+
+Expected output:
+```text
+Running TFocus AI Lifecycle Unit Tests...
+✓ 22 Discrete States Verified
+✓ Deterministic Pricing & Safety Mode Verified: 970.000đ (ASSIST)
+All tests passed successfully!
+✔ tests/lifecycle.test.mjs
+✔ hỏi giá chưa có concept phải hỏi thể loại, không quote
+✔ birthday gửi gallery và concept code
+✔ chọn concept lấy giá từ catalog và lưu quote
+✔ external quote bị chặn khi còn unresolved
+✔ payment evidence không tự verified và booking cần manual confirmation
+✔ human signal chuyển conversation sang HUMAN
+ℹ tests 7 | pass 7 | fail 0
+```
+
+### Start API Server
+```bash
+node src/api/server.mjs
+```
+Default API port: `http://127.0.0.1:4100`.
+
+---
+
+## Persistence & Production Profile
+
+- Schema migration: `migrations/001_tfocus_core.sql`
+- Durable store: PostgreSQL connection with fallback in-memory JSONL audit logs.
+- Docker services: `docker-compose.yml` (API, worker, PostgreSQL, Redis).
+
+---
 
 ## License
-MIT © 2025–2026 TFocus Studio.
+
+MIT License. See [LICENSE](LICENSE) for details.

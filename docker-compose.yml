@@ -1,0 +1,22 @@
+name: tfocus-ai
+# Postgres and Redis are provided by the local ChatbotX compose project.
+# In staging/production, point TFOCUS_DATABASE_URL and TFOCUS_REDIS_URL at managed services.
+services:
+  api:
+    image: node:24-bookworm-slim
+    working_dir: /app
+    command: node src/api/server.mjs
+    env_file: .env
+    volumes:
+      - .:/app
+    ports:
+      - "4100:4100"
+    restart: unless-stopped
+  worker:
+    image: node:24-bookworm-slim
+    working_dir: /app
+    command: node src/worker.mjs
+    env_file: .env
+    volumes:
+      - .:/app
+    restart: unless-stopped

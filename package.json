@@ -1,20 +1,17 @@
 {
-  "name": "@tfocus/orchestrator",
-  "version": "1.0.0",
-  "description": "Production vertical AI orchestrator for photography studios",
-  "main": "src/orchestrator.mjs",
+  "name": "tfocus-ai",
+  "version": "0.1.0",
+  "private": true,
   "type": "module",
+  "description": "TFocus Studio AI Orchestrator MVP, isolated from ChatbotX Core",
   "scripts": {
-    "test": "node test/verify-lifecycle.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "start": "node src/api/server.mjs",
+    "dev": "node --watch src/api/server.mjs",
+    "migrate": "node src/persistence/migrate.mjs",
+    "worker": "node src/worker.mjs"
   },
-  "keywords": [
-    "vertical-ai",
-    "multimodal-rag",
-    "pgvector",
-    "grounding-dino",
-    "claude-vision",
-    "finite-state-machine"
-  ],
-  "author": "TFocus AI Engineering Team <dev@tfocus.com.vn>",
-  "license": "MIT"
+  "dependencies": {
+    "pg": "^8.16.3"
+  }
 }
