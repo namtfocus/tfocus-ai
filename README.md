@@ -14,7 +14,7 @@ Vertical AI operating layer and orchestration engine designed specifically for c
 - **Thắng — Photography & Lighting Lead** (`thang@tfocus.com.vn`): photography direction, lighting practice, studio workflow, visual references, and physical inventory expertise.
 - **Nam — Technology Lead** (`nam@tfocus.com.vn`): system architecture, AI orchestration, software implementation, infrastructure, and product direction.
 
-TFocus Studio is the living lab. TFocus AI is the technology direction being developed from that operating environment. The Claude Startups application is submitted by **Nam** as the technology lead and project owner for the AI system.
+TFocus Studio is the operating environment in which the problem is being understood and tested. TFocus AI turns that experience into a reusable product direction for creative studios.
 
 ---
 
